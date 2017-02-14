@@ -1,0 +1,26 @@
+
+## Install Barebox
+git clone git://git.pengutronix.de/git/barebox.git
+
+cd barebox
+
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- am335x_mlo_defconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- am335x_defconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
+
+sudo ln -s /home/myusername/tmp/barebox/images/ /srv/tftp/barebox
+
+# cancel uboot and execute:
+setenv ipaddr 192.168.1.25
+setenv serverip 192.168.1.100
+tftp 0x80800000 barebox/barebox-am33xx-beaglebone.img
+go 0x80800000
+
+# now we are in barebox. Execute this:
+dhcp
+eth0.serverip=192.168.1.100
+tftp barebox/barebox-am33xx-beaglebone.img
+cp barebox-am33xx-beaglebone.img boot/barebox.bin
+tftp barebox/barebox-am33xx-beaglebone-mlo.img
+cp barebox-am33xx-beaglebone-mlo.img boot/MLO
