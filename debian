@@ -1,0 +1,15 @@
+# on linux host
+cd /srv/tftp
+wget http://http.us.debian.org/debian/dists/sid/main/installer-armhf/current/images/netboot/netboot.tar.gz
+tar xvfz netboot.tar.gz
+
+# in barebox
+tftp debian-installer/armhf/vmlinuz
+tftp debian-installer/armhf/dtbs/am335x-boneblack.dtb
+tftp debian-installer/armhf/initrd.gz
+
+
+global.bootm.image=vmlinuz
+global.bootm.oftree=am335x-boneblack.dtb
+global.bootm.initrd=initrd.gz
+bootm
