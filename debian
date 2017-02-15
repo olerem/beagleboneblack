@@ -15,6 +15,10 @@ global.bootm.oftree=am335x-boneblack.dtb
 global.bootm.initrd=initrd.gz
 bootm
 
+# proceed here with debian instalation. Create ext2 boot partiotion and ext4 root partiotion
+# don't touch fat16 partiotion with bootloader.
+
+# after instalation of debian
 edit /env/config
 #add
 global.boot.default=debian
