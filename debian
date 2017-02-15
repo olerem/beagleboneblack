@@ -4,12 +4,30 @@ wget http://http.us.debian.org/debian/dists/sid/main/installer-armhf/current/ima
 tar xvfz netboot.tar.gz
 
 # in barebox
+dhcp
+eth0.serverip=192.168.1.100
 tftp debian-installer/armhf/vmlinuz
 tftp debian-installer/armhf/dtbs/am335x-boneblack.dtb
 tftp debian-installer/armhf/initrd.gz
-
 
 global.bootm.image=vmlinuz
 global.bootm.oftree=am335x-boneblack.dtb
 global.bootm.initrd=initrd.gz
 bootm
+
+edit /env/config
+#add
+global.boot.default=debian
+
+edit /env/boot/debian
+# add this script
+#!/bin/sh
+umount /boot
+mount /dev/mmc1.1 /boot
+global.bootm.image=/boot/vmlinuz
+global.bootm.oftree=/boot/dtb
+global.bootm.initrd=/boot/initrd.img
+global linux.bootargs.dyn.root="root=/dev/mmcblk1p5"
+
+# after this
+saveenv
